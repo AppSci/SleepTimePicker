@@ -117,7 +117,7 @@ bintray {
         publish = true
         version {
             name = libraryVersionName
-            desc = 'Billing library release $libraryVersionName'
+            desc = 'SleepTimePicker library release $libraryVersionName'
             released = new Date()
             vcsTag = libraryVersionName
         }
