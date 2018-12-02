@@ -1,1 +1,3 @@
 # SleepTimePicker
+
+![Screenshot](screenshot.png)
