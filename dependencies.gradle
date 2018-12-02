@@ -1,0 +1,84 @@
+ext {
+    compileSdkVer = 28
+    minSdkVer = 21
+    targetSdkVer = 28
+
+    versionCode = 1
+    versionName = '1.0.0'
+
+    // Kotlin
+    kotlinVer = '1.3.10'
+    androidKtxVer = '1.0.0'
+
+    // AndroidX
+    appCompatVer = '1.0.2'
+    legacyVer = '1.0.0'
+    materialVer = '1.0.0'
+    cardViewVer = '1.0.0'
+    recyclerViewVier = '1.0.0'
+    constraintLayout = '1.1.3'
+    archComponentsTestVer = '2.0.0'
+
+    coreRuntimeVer = "2.0.1-alpha01"
+
+    // MultiDex
+    multiDexVer = '2.0.0'
+
+    // Developer-related
+    timberVer = '4.7.1'
+
+    // Unit-tests
+    jUnitVer = '4.12'
+    mockitoVer = '2.15.0'
+    mockitoKotlinVer = '1.5.0'
+    mockitoAndroidVer = '2.23.0'
+    assertJVer = '3.9.0'
+    dataProviderVer = '2.3'
+
+    // Instrumentation tests
+    runnerVer = '1.1.0-alpha4'
+    espressoCoreVer = '3.1.0-alpha4'
+    annotationsVer = '1.0.0-beta01'
+    coreTestingVer = '2.0.0-alpha1'
+
+    // Dependencies
+    supportDependencies = [
+            appCompat       : "androidx.appcompat:appcompat:$appCompatVer",
+            support         : "androidx.legacy:legacy-support-v4:$legacyVer",
+            design          : "com.google.android.material:material:$materialVer",
+            cardView        : "androidx.cardview:cardview:$cardViewVer",
+            recyclerView    : "androidx.recyclerview:recyclerview:$recyclerViewVier",
+            constraintLayout: "androidx.constraintlayout:constraintlayout:$constraintLayout",
+            multiDex        : "androidx.multidex:multidex:$multiDexVer",
+            coreRuntime     : "androidx.arch.core:core-runtime:$coreRuntimeVer"
+    ]
+
+    kotlinDependencies = [
+            kotlinStdLib : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVer",
+            kotlinReflect: "org.jetbrains.kotlin:kotlin-reflect:$kotlinVer",
+            androidKtx   : "androidx.core:core-ktx:$androidKtxVer"
+    ]
+
+    developmentDependencies = [
+            timber        : "com.jakewharton.timber:timber:$timberVer"
+    ]
+
+    testDependencies = [
+            jUnit             : "junit:junit:$jUnitVer",
+            mockito           : "org.mockito:mockito-core:$mockitoVer",
+            mockitoKotlin     : "com.nhaarman:mockito-kotlin:$mockitoKotlinVer",
+            mockitoAndroid    : "org.mockito:mockito-android:$mockitoAndroidVer",
+            assertJ           : "org.assertj:assertj-core:$assertJVer",
+            mockitoInline     : "org.mockito:mockito-inline:$mockitoVer",
+            dataProvider      : "com.tngtech.junit.dataprovider:junit4-dataprovider:$dataProviderVer",
+            archComponentsTest: "androidx.arch.core:core-testing:$archComponentsTestVer"
+    ]
+
+    androidTestDependencies = [
+            testRunner        : "androidx.test:runner:$runnerVer",
+            espressoCore      : "androidx.test.espresso:espresso-core:$espressoCoreVer",
+            testRules         : "androidx.test:rules:$runnerVer",
+            supportAnnotations: "androidx.annotation:annotation:$annotationsVer",
+            testArchCore      : "androidx.arch.core:core-testing:$coreTestingVer"
+    ]
+}

@@ -1,0 +1,34 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion compileSdkVer
+    defaultConfig {
+        applicationId "com.appsci.sleep.sleeptimepicker"
+        minSdkVersion minSdkVer
+        targetSdkVersion targetSdkVer
+        versionCode rootProject.extensions.getByName("ext")["versionCode"]
+        versionName rootProject.extensions.getByName("ext")["versionName"]
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':timepicker')
+
+    implementation developmentDependencies.timber
+
+    implementation kotlinDependencies.kotlinStdLib
+    implementation supportDependencies.appCompat
+    implementation supportDependencies.constraintLayout
+    implementation supportDependencies.support
+
+}

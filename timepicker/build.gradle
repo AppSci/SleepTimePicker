@@ -1,0 +1,125 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+def libraryVersionName = rootProject.extensions.getByName("ext")["versionName"]
+
+android {
+    defaultConfig {
+        minSdkVersion minSdkVer
+        targetSdkVersion targetSdkVer
+        compileSdkVersion compileSdkVer
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation kotlinDependencies.kotlinStdLib
+    implementation kotlinDependencies.androidKtx
+    implementation kotlinDependencies.kotlinReflect
+
+    implementation supportDependencies.appCompat
+
+    // Timber
+    implementation developmentDependencies.timber
+
+    // Testing
+    testImplementation testDependencies.jUnit
+    testImplementation testDependencies.mockito
+    testImplementation testDependencies.mockitoKotlin
+    testImplementation testDependencies.assertJ
+    testImplementation testDependencies.dataProvider
+}
+
+def siteUrl = 'https://github.com/AppSci/SleepTimePicker'      // Homepage URL of the library
+def gitUrl = 'https://github.com/AppSci/SleepTimePicker.git'   // Git repository URL
+def issueUrl = 'https://github.com/AppSci/SleepTimePicker/issues'   // Issues URL
+group = GROUP                                          // Maven Group ID for the artifact
+version = libraryVersionName
+
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging POM_PACKAGING
+
+                // Add your description here
+                name POM_NAME
+                description = POM_DESCRIPTION
+                url SITE_URL
+
+                // Set your license
+                licenses {
+                    license {
+                        name POM_LICENCE_NAME
+                        url POM_LICENCE_URL
+                        distribution POM_LICENCE_DIST
+                    }
+                }
+                developers {
+                    developer {
+                        id 'dmytro-ostapovets'
+                        name 'Dmytro Ostapovets'
+                        email "dmytro.ostapovets@gen.tech"
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    pkg {
+        repo = "timepicker"
+        name = "com.sleepsci:timepicker"
+        websiteUrl = SITE_URL
+        vcsUrl = VCS_URL
+        issueTrackerUrl = VCS_ISSUES_URL
+        userOrg = 'sleepsci'
+        licenses = ["Apache-2.0"]
+        publish = true
+        version {
+            name = libraryVersionName
+            desc = 'Billing library release $libraryVersionName'
+            released = new Date()
+            vcsTag = libraryVersionName
+        }
+    }
+}

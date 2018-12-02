@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SleepTimePicker">
+
+        <attr name="progressColor" format="color" />
+        <attr name="progressBackgroundColor" format="color" />
+        <attr name="divisionColor" format="color" />
+        <attr name="progressStrokeWidth" format="dimension" />
+        <attr name="progressBgStrokeWidth" format="dimension" />
+        <attr name="strokeBottomShadowRadius" format="dimension" />
+        <attr name="strokeTopShadowRadius" format="dimension" />
+        <attr name="strokeBottomShadowColor" format="color" />
+        <attr name="strokeTopShadowColor" format="color" />
+        <attr name="labelColor" format="color" />
+        <attr name="labelFont" format="reference" />
+        <attr name="sleepLayoutId" format="reference" />
+        <attr name="wakeLayoutId" format="reference" />
+
+    </declare-styleable>
+
+</resources>

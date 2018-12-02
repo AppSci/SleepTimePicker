@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">SleepTimePicker</string>
+    <string name="sleep_schedule">Sleep Schedule</string>
+    <string name="wake_up">Wake up</string>
+
+    <string name="sleep_schedule_hr">HR</string>
+    <string name="sleep_schedule_min">MIN</string>
+    <string name="bedtime">BEDTIME</string>
+
+</resources>
