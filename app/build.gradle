@@ -25,6 +25,7 @@ dependencies {
     implementation project(':timepicker')
 
     implementation developmentDependencies.timber
+    implementation developmentDependencies.threeten
 
     implementation kotlinDependencies.kotlinStdLib
     implementation supportDependencies.appCompat

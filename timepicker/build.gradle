@@ -47,6 +47,7 @@ dependencies {
 
     // Timber
     implementation developmentDependencies.timber
+    implementation developmentDependencies.threeten
 
     // Testing
     testImplementation testDependencies.jUnit
