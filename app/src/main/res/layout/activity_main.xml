@@ -41,10 +41,6 @@
             app:progressColor="@color/white"
             app:progressStrokeWidth="28dp"
             app:sleepLayoutId="@layout/layout_picker_sleep"
-            app:strokeBottomShadowColor="@color/white"
-            app:strokeBottomShadowRadius="22dp"
-            app:strokeTopShadowColor="@color/blue"
-            app:strokeTopShadowRadius="18dp"
             app:wakeLayoutId="@layout/layout_picker_wake"/>
 
     <LinearLayout

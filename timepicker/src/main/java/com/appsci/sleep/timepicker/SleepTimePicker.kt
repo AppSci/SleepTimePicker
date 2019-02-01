@@ -16,13 +16,14 @@ import com.appsci.sleep.timepicker.Utils.Companion.angleBetweenVectors
 import com.appsci.sleep.timepicker.Utils.Companion.angleToMins
 import com.appsci.sleep.timepicker.Utils.Companion.snapMinutes
 import com.appsci.sleep.timepicker.Utils.Companion.to_0_720
+import org.threeten.bp.LocalTime
 import timber.log.Timber
 import java.util.*
 import kotlin.math.*
 
 
 class SleepTimePicker @JvmOverloads constructor(
-        context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : ViewGroup(context, attrs, defStyleAttr) {
 
     init {
@@ -60,7 +61,7 @@ class SleepTimePicker @JvmOverloads constructor(
     private val textRect = Rect()
     private val calendar = Calendar.getInstance()
 
-    var listener: ((bedTime: Date, wakeTime: Date) -> Unit)? = null
+    var listener: ((bedTime: LocalTime, wakeTime: LocalTime) -> Unit)? = null
 
     var progressColor: Int
         @ColorInt
@@ -82,17 +83,9 @@ class SleepTimePicker @JvmOverloads constructor(
 
     fun getWakeTime() = computeWakeTime()
 
-    fun setTime(bedTime: Date, wakeTime: Date) {
-        calendar.time = bedTime
-        val bedHours = calendar.get(Calendar.HOUR_OF_DAY)
-        val bedMinutes = calendar.get(Calendar.MINUTE)
-        sleepAngle = Utils.minutesToAngle(bedHours * 60 + bedMinutes)
-
-        calendar.time = wakeTime
-        val wakeHours = calendar.get(Calendar.HOUR_OF_DAY)
-        val wakeMinutes = calendar.get(Calendar.MINUTE)
-        wakeAngle = Utils.minutesToAngle(wakeHours * 60 + wakeMinutes)
-
+    fun setTime(bedTime: LocalTime, wakeTime: LocalTime) {
+        sleepAngle = Utils.minutesToAngle(bedTime.hour * 60 + bedTime.minute)
+        wakeAngle = Utils.minutesToAngle(wakeTime.hour * 60 + wakeTime.minute)
         invalidate()
         notifyChanges()
     }
@@ -123,12 +116,15 @@ class SleepTimePicker @JvmOverloads constructor(
             wakeLayoutId = a.getResourceId(R.styleable.SleepTimePicker_wakeLayoutId, 0)
 
             progressColor = a.getColor(R.styleable.SleepTimePicker_progressColor, progressColor)
-            progressBackgroundColor = a.getColor(R.styleable.SleepTimePicker_progressBackgroundColor, progressBackgroundColor)
+            progressBackgroundColor =
+                a.getColor(R.styleable.SleepTimePicker_progressBackgroundColor, progressBackgroundColor)
             divisionColor = a.getColor(R.styleable.SleepTimePicker_divisionColor, divisionColor)
-            progressStrokeWidth = a.getDimensionPixelSize(R.styleable.SleepTimePicker_progressStrokeWidth, progressStrokeWidth)
+            progressStrokeWidth =
+                a.getDimensionPixelSize(R.styleable.SleepTimePicker_progressStrokeWidth, progressStrokeWidth)
             progressBottomShadowSize = a.getDimensionPixelSize(R.styleable.SleepTimePicker_strokeBottomShadowRadius, 0)
             progressTopShadowSize = a.getDimensionPixelSize(R.styleable.SleepTimePicker_strokeTopShadowRadius, 0)
-            progressBgStrokeWidth = a.getDimensionPixelSize(R.styleable.SleepTimePicker_progressBgStrokeWidth, progressStrokeWidth)
+            progressBgStrokeWidth =
+                a.getDimensionPixelSize(R.styleable.SleepTimePicker_progressBgStrokeWidth, progressStrokeWidth)
             strokeBottomShadowColor = a.getColor(R.styleable.SleepTimePicker_strokeBottomShadowColor, progressColor)
             strokeTopShadowColor = a.getColor(R.styleable.SleepTimePicker_strokeTopShadowColor, progressColor)
             labelColor = a.getColor(R.styleable.SleepTimePicker_labelColor, progressColor)
@@ -182,8 +178,10 @@ class SleepTimePicker @JvmOverloads constructor(
         divisionPaint.isAntiAlias = true
 
         textPaint = Paint()
-        textPaint.textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, SCALE_LABEL_TEXT_SIZE,
-                resources.displayMetrics)
+        textPaint.textSize = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_SP, SCALE_LABEL_TEXT_SIZE,
+            resources.displayMetrics
+        )
         textPaint.color = labelColor
 
         val inflater = LayoutInflater.from(context)
@@ -281,18 +279,14 @@ class SleepTimePicker @JvmOverloads constructor(
         listener?.invoke(computeBedTime, computeWakeTime)
     }
 
-    private fun computeBedTime(): Date {
+    private fun computeBedTime(): LocalTime {
         val bedMins = snapMinutes(angleToMins(sleepAngle), stepMinutes)
-        calendar.set(Calendar.HOUR_OF_DAY, bedMins / 60)
-        calendar.set(Calendar.MINUTE, bedMins % 60)
-        return calendar.time
+        return LocalTime.of((bedMins / 60) % 24, bedMins % 60)
     }
 
-    private fun computeWakeTime(): Date {
+    private fun computeWakeTime(): LocalTime {
         val wakeMins = snapMinutes(angleToMins(wakeAngle), stepMinutes)
-        calendar.set(Calendar.HOUR_OF_DAY, wakeMins / 60)
-        calendar.set(Calendar.MINUTE, wakeMins % 60)
-        return calendar.time
+        return LocalTime.of((wakeMins / 60) % 24, wakeMins % 60)
     }
 
     private fun layoutView(view: View, angle: Double) {
@@ -305,10 +299,12 @@ class SleepTimePicker @JvmOverloads constructor(
         val centerX = (parentCenterX + radius * cos(Math.toRadians(angle))).toInt()
         val centerY = (parentCenterY - radius * sin(Math.toRadians(angle))).toInt()
         Timber.d("layoutWakeView radius= $radius $parentCenterX $parentCenterY $centerX $centerY")
-        view.layout((centerX - halfWidth),
-                centerY - halfHeight,
-                centerX + halfWidth,
-                centerY + halfHeight)
+        view.layout(
+            (centerX - halfWidth),
+            centerY - halfHeight,
+            centerX + halfWidth,
+            centerY + halfHeight
+        )
     }
 
     private fun calculateBounds(w: Int, h: Int) {
@@ -336,9 +332,11 @@ class SleepTimePicker @JvmOverloads constructor(
 
     private fun drawProgressBackground(canvas: Canvas) {
         Timber.d("drawProgressBackground $circleBounds")
-        canvas.drawArc(circleBounds, ANGLE_START_PROGRESS_BACKGROUND.toFloat(),
-                ANGLE_END_PROGRESS_BACKGROUND.toFloat(),
-                false, progressBackgroundPaint)
+        canvas.drawArc(
+            circleBounds, ANGLE_START_PROGRESS_BACKGROUND.toFloat(),
+            ANGLE_END_PROGRESS_BACKGROUND.toFloat(),
+            false, progressBackgroundPaint
+        )
     }
 
     private fun drawProgress(canvas: Canvas) {

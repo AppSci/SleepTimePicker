@@ -1,10 +1,10 @@
 ext {
     compileSdkVer = 28
-    minSdkVer = 21
+    minSdkVer = 17
     targetSdkVer = 28
 
     versionCode = 1
-    versionName = '1.0.2'
+    versionName = '1.0.3'
 
     // Kotlin
     kotlinVer = '1.3.10'
@@ -26,6 +26,8 @@ ext {
 
     // Developer-related
     timberVer = '4.7.1'
+    threetenVer = '1.1.0'
+
 
     // Unit-tests
     jUnitVer = '4.12'
@@ -60,7 +62,8 @@ ext {
     ]
 
     developmentDependencies = [
-            timber        : "com.jakewharton.timber:timber:$timberVer"
+            timber        : "com.jakewharton.timber:timber:$timberVer",
+            threeten            : "com.jakewharton.threetenabp:threetenabp:$threetenVer",
     ]
 
     testDependencies = [
